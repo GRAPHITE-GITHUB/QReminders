@@ -75,5 +75,18 @@
 @property (nonatomic, retain) IBOutlet UIImageView *noteItPic;
 @property (nonatomic, retain) IBOutlet UITextField *reminderField;
 @property (nonatomic, retain) IBOutlet UITextField *reminderFieldDismiss;
+@property (weak, nonatomic) IBOutlet UIButton *halfhour;
+@property (weak, nonatomic) IBOutlet UIButton *onehour;
+@property (weak, nonatomic) IBOutlet UIButton *threehour;
+@property (weak, nonatomic) IBOutlet UIButton *morning;
+@property (weak, nonatomic) IBOutlet UIButton *lunch;
+@property (weak, nonatomic) IBOutlet UIButton *customTime;
+@property (weak, nonatomic) IBOutlet UIButton *customLoc;
+@property (weak, nonatomic) IBOutlet UIButton *house;
+@property (weak, nonatomic) IBOutlet UIButton *work;
+@property (weak, nonatomic) IBOutlet UIButton *beforeWork;
+@property (weak, nonatomic) IBOutlet UIButton *afterWork;
+@property (weak, nonatomic) IBOutlet UIButton *beforeBed;
+@property (weak, nonatomic) IBOutlet UIButton *notehide;
 
 @end
