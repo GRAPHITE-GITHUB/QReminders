@@ -1176,7 +1176,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" title="Settings" id="BLi-Ux-949">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="QSN-qO-fJc">
                             <connections>
-                                <segue destination="xEU-9u-OMg" kind="modal" modalTransitionStyle="crossDissolve" id="iHg-NE-u7w"/>
+                                <segue destination="aKs-lB-lrY" kind="unwind" unwindAction="exit:" id="hkJ-mX-es7"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="muZ-hb-trP">
@@ -1211,6 +1211,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jeb-5c-OuI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="aKs-lB-lrY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1831" y="26"/>
         </scene>
@@ -1449,9 +1450,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="NCa-hA-SJb"/>
         <segue reference="cfn-pD-V3R"/>
         <segue reference="hEB-R3-fWu"/>
         <segue reference="awj-Jr-mAi"/>
+        <segue reference="NCa-hA-SJb"/>
     </inferredMetricsTieBreakers>
 </document>

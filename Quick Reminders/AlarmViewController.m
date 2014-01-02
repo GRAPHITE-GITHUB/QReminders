@@ -16,6 +16,13 @@
 
 @synthesize datePicker, viewA, viewABG, datePickerPic, reminderLabel, reminderFieldDismiss, noteItPic, reminderField;
 
+
+//this is the new exit segue ios7 or ios6 introduced i cant remember, anyway its cool and removes many arrows in storyboard
+-(IBAction)exit:(UIStoryboardSegue *)segue{
+    
+    
+}
+
 - (IBAction)options:(id)sender {
     
     [UIImageView animateWithDuration:0.35 animations:^{
