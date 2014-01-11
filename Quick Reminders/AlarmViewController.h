@@ -11,6 +11,9 @@
 
 @interface AlarmViewController : UIViewController <UITextFieldDelegate> {
     
+    IBOutlet UIView *mainView;
+    
+    IBOutlet UIView *homeBack;
     IBOutlet UIToolbar *toolBar1;
     IBOutlet UIView *darkview;
     IBOutlet UITextField *reminderField;
@@ -22,6 +25,10 @@
     IBOutlet UIImageView *viewABG;
     IBOutlet UIImageView *datePickerPic;
     IBOutlet UIImageView *noteItPic;
+    
+    IBOutlet UIButton *setReminder;
+    IBOutlet UILabel *titleField;
+    IBOutlet UIButton *backButton;
     
     NSTimer *myTimer;
     NSTimer *timer1;
@@ -41,6 +48,8 @@
     IBOutlet UIButton *afterWork;
     IBOutlet UIButton *beforeBed;
     IBOutlet UIButton *notehide;
+    
+    IBOutlet UIButton *creditButton;
 }
 
 -(IBAction)halfhour:(id)sender;
@@ -61,6 +70,8 @@
 -(void)removeViews:(id)object;
 -(void)dismissDatePicker:(id)sender;
 -(IBAction)hideKeyboard:(id)Sender;
+-(IBAction)credits:(id)sender;
+-(IBAction)setCustomReminder;
 
 // iPhone 4 only.
 -(IBAction)options:(id)sender;

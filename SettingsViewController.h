@@ -26,11 +26,11 @@
     
     IBOutlet UIScrollView *scroller;
     IBOutlet UIScrollView *scrolleriPhone5;
-    
 }
 
 -(IBAction)doneButton:(id)sender;
 -(IBAction)hideKeyboard:(id)sender;
+-(IBAction)cancelButton:(id)sender;
 
 @property (strong, nonatomic) IBOutlet MarqueeLabel *marquee;
 

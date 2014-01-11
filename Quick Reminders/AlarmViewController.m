@@ -7,6 +7,7 @@
 //
 
 #import "AlarmViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AlarmViewController ()
 
@@ -15,6 +16,10 @@
 @implementation AlarmViewController
 
 @synthesize datePicker, viewA, viewABG, datePickerPic, reminderLabel, reminderFieldDismiss, noteItPic, reminderField;
+
+- (IBAction)credits:(id)sender{
+    [self performSegueWithIdentifier:@"credits" sender:sender];
+}
 
 - (IBAction)options:(id)sender {
     
@@ -695,19 +700,42 @@
 }
 
 -(IBAction)backbutton:(id)sender{
-    
     [self performSegueWithIdentifier:@"AlarmTimeBack" sender:sender];
 }
 
 -(IBAction)setReminder:(id)sender{
     
     if (reminderField.text.length == 0) {
-        
-        UIAlertView *moreLetters = [[UIAlertView alloc] initWithTitle: @"Quick Reminders"
-                                                              message:@"In order to set a reminder there needs to be 1 or more characters typed within the text field." delegate:self
-                                                    cancelButtonTitle:@"Ok, I got it!"
-                                                    otherButtonTitles:nil];
-        [moreLetters show];
+        //Shake the View
+        CABasicAnimation *shake = [CABasicAnimation animationWithKeyPath:@"position"];
+        [shake setDuration:0.1];
+        [shake setRepeatCount:2];
+        [shake setAutoreverses:YES];
+        [shake setFromValue:[NSValue valueWithCGPoint:
+                             CGPointMake(mainView.center.x - 5,mainView.center.y)]];
+        [shake setToValue:[NSValue valueWithCGPoint:
+                           CGPointMake(mainView.center.x + 5, mainView.center.y)]];
+        [mainView.layer addAnimation:shake forKey:@"position"];
+        //Shake the NavBar
+        CABasicAnimation *shakeNav = [CABasicAnimation animationWithKeyPath:@"position"];
+        [shakeNav setDuration:0.1];
+        [shakeNav setRepeatCount:2];
+        [shakeNav setAutoreverses:YES];
+        [shakeNav setFromValue:[NSValue valueWithCGPoint:
+                             CGPointMake(self.navigationController.navigationBar.center.x - 5,self.navigationController.navigationBar.center.y)]];
+        [shakeNav setToValue:[NSValue valueWithCGPoint:
+                           CGPointMake(self.navigationController.navigationBar.center.x + 5, self.navigationController.navigationBar.center.y)]];
+        [self.navigationController.navigationBar.layer addAnimation:shakeNav forKey:@"position"];
+        //Shake the TabBar
+        CABasicAnimation *shakeTab = [CABasicAnimation animationWithKeyPath:@"position"];
+        [shakeTab setDuration:0.1];
+        [shakeTab setRepeatCount:2];
+        [shakeTab setAutoreverses:YES];
+        [shakeTab setFromValue:[NSValue valueWithCGPoint:
+                                CGPointMake(self.tabBarController.tabBar.center.x - 5,self.tabBarController.tabBar.center.y)]];
+        [shakeTab setToValue:[NSValue valueWithCGPoint:
+                              CGPointMake(self.tabBarController.tabBar.center.x + 5, self.tabBarController.tabBar.center.y)]];
+        [self.tabBarController.tabBar.layer addAnimation:shakeTab forKey:@"position"];
     }
     else {
         [reminderField resignFirstResponder];
@@ -794,7 +822,7 @@
     } completion:^(BOOL finished){}];
 }
 
--(IBAction)setReminder {
+-(IBAction)setCustomReminder {
     
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     
@@ -856,8 +884,9 @@
 
 - (void)viewDidLoad{
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FirstLaunch"])
-    {}
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FirstLaunch"]){
+        
+    }
     else {
         
         UIAlertView *firstLaunch = [[UIAlertView alloc] initWithTitle: @"Quick Reminders"
@@ -868,19 +897,12 @@
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FirstLaunch"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSString *specificStyle = @"turq";
+        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+        [standardUserDefaults setObject:specificStyle forKey:@"colourStyle"];
+        [standardUserDefaults synchronize];
     }
-    
-    // Scrolling label
-    MarqueeLabel *scrollyLabel = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, 320, 22) duration:10 andFadeLength:0.0];
-    
-    scrollyLabel.text = @"  To get started, type your reminder in the field above and hit 'Next' when finished typing, then you will be prompted to choose a suitable time or location.  ";
-    scrollyLabel.textColor = [UIColor colorWithWhite:0.984 alpha:1.000];
-    scrollyLabel.backgroundColor = [UIColor colorWithRed:0.259 green:0.275 blue:0.282 alpha:1];
-    scrollyLabel.font = [UIFont fontWithName:@"Helvetica-Normal" size:18];
-    scrollyLabel.marqueeType = MLContinuous;
-    scrollyLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-    
-    self.marquee = scrollyLabel;
     
     // Rotating animation
     CABasicAnimation *spin;
@@ -910,6 +932,85 @@
 	// Do any additional setup after loading the view.
     
     reminderField.text = [[NSString stringWithFormat:@""] init];
+    
+    creditButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 4, 0);
+    creditButton.transform = CGAffineTransformMakeRotation(270 * M_PI / 180.0);
+    creditButton.layer.cornerRadius = 5;
+    [[creditButton layer] setBorderWidth:1.0f];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *preferedColour = [standardUserDefaults stringForKey:@"colourStyle"];
+    
+    if ([preferedColour isEqualToString:@"white"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.961 green:0.957 blue:0.969 alpha:1.0];
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        [[creditButton layer] setBorderColor:[UIColor blackColor].CGColor];
+        [creditButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        homeBack.backgroundColor = [UIColor colorWithRed:0.961 green:0.957 blue:0.969 alpha:1.0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.961 green:0.957 blue:0.969 alpha:1.0];
+        [setReminder setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        titleField.textColor = [UIColor blackColor];
+        self.tabBarController.tabBar.tintColor = [UIColor blackColor];
+        [backButton setTitleColor:[UIColor colorWithRed:0.961 green:0.957 blue:0.969 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"red"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.996 green:0.463 blue:0.478 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+        [creditButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        homeBack.backgroundColor = [UIColor colorWithRed:0.996 green:0.463 blue:0.478 alpha:1.0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.996 green:0.463 blue:0.478 alpha:1.0];
+        [backButton setTitleColor:[UIColor colorWithRed:0.996 green:0.463 blue:0.478 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"orange"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:1 green:0.584 blue:0 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+        [creditButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = homeBack.bounds;
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:1 green:0.584 blue:0 alpha:1.0] CGColor], (id)[[UIColor colorWithRed:1 green:0.369 blue:0.227 alpha:1.0] CGColor], nil];
+        [homeBack.layer insertSublayer:gradient atIndex:0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:1 green:0.369 blue:0.227 alpha:1.0];
+        [backButton setTitleColor:[UIColor colorWithRed:1 green:0.584 blue:0 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"green"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.631 green:0.91 blue:0.467 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+        [creditButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        homeBack.backgroundColor = [UIColor colorWithRed:0.631 green:0.91 blue:0.467 alpha:1.0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.631 green:0.91 blue:0.467 alpha:1.0];
+        [backButton setTitleColor:[UIColor colorWithRed:0.631 green:0.91 blue:0.467 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"turq"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.322 green:0.929 blue:0.78 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+        [creditButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = homeBack.bounds;
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.322 green:0.929 blue:0.78 alpha:1.0] CGColor], (id)[[UIColor colorWithRed:0.353 green:0.784 blue:0.984 alpha:1.0] CGColor], nil];
+        [homeBack.layer insertSublayer:gradient atIndex:0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.353 green:0.784 blue:0.984 alpha:1.0];
+        [backButton setTitleColor:[UIColor colorWithRed:0.322 green:0.929 blue:0.78 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"yellow"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.98 green:0.945 blue:0.537 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor blackColor].CGColor];
+        [creditButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        homeBack.backgroundColor = [UIColor colorWithRed:0.98 green:0.945 blue:0.537 alpha:1.0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.98 green:0.945 blue:0.537 alpha:1.0];
+        [setReminder setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        titleField.textColor = [UIColor blackColor];
+        self.tabBarController.tabBar.tintColor = [UIColor blackColor];
+        [backButton setTitleColor:[UIColor colorWithRed:0.98 green:0.945 blue:0.537 alpha:1.0] forState:UIControlStateNormal];
+    }
+    else if ([preferedColour isEqualToString:@"blue"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.275 green:0.671 blue:0.878 alpha:1.0];
+        [[creditButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+        [creditButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        homeBack.backgroundColor = [UIColor colorWithRed:0.275 green:0.671 blue:0.878 alpha:1.0];
+        self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:0.275 green:0.671 blue:0.878 alpha:1.0];
+        [backButton setTitleColor:[UIColor colorWithRed:0.275 green:0.671 blue:0.878 alpha:1.0] forState:UIControlStateNormal];
+    }
     
     [reminderField setDelegate:self];
 }

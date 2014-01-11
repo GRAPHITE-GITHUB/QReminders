@@ -37,6 +37,48 @@
 }
 
 -(IBAction)doneButton:(id)sender{
+    int c1f1 = [cell1Field1.text intValue];
+    int c1f2 = [cell1Field2.text intValue];
+    int c2f1 = [cell2Field1.text intValue];
+    int c2f2 = [cell2Field2.text intValue];
+    int c3f1 = [cell3Field1.text intValue];
+    int c3f2 = [cell3Field2.text intValue];
+    int c4f1 = [cell4Field1.text intValue];
+    int c4f2 = [cell4Field2.text intValue];
+    int c5f1 = [cell5Field1.text intValue];
+    int c5f2 = [cell5Field2.text intValue];
+    
+    if (c1f1 >= 25) {
+        cell1Field1.text = @"24";
+    }
+    if (c1f2 >= 61) {
+        cell1Field2.text = @"60";
+    }
+    if (c2f1 >= 25) {
+        cell2Field1.text = @"24";
+    }
+    if (c2f2 >= 61) {
+        cell2Field2.text = @"60";
+    }
+    if (c3f1 >= 25) {
+        cell3Field1.text = @"24";
+    }
+    if (c3f2 >= 61) {
+        cell3Field2.text = @"60";
+    }
+    if (c4f1 >= 25) {
+        cell4Field1.text = @"24";
+    }
+    if (c4f2 >= 61) {
+        cell4Field2.text = @"60";
+    }
+    if (c5f1 >= 25) {
+        cell5Field1.text = @"24";
+    }
+    if (c5f2 >= 61) {
+        cell5Field2.text = @"60";
+    }
+    
     NSString *textBox11 = cell1Field1.text;
     NSUserDefaults *defaults0 = [NSUserDefaults standardUserDefaults];
     [defaults0 setObject:textBox11 forKey:@"1,1"];
@@ -99,20 +141,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-
-    MarqueeLabel *scrollyLabel = [[MarqueeLabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44) duration:8 andFadeLength:0.0];
-    
-    scrollyLabel.text = @"  24 Hour time format only, DO NOT exceed over 24:59 or else it will rollover to next day!  ";
-    scrollyLabel.textColor = [UIColor colorWithWhite:0.902 alpha:1.000];
-    scrollyLabel.backgroundColor = [UIColor colorWithRed:0.384 green:0.384 blue:0.392 alpha:0.990];
-    scrollyLabel.font = [UIFont fontWithName:@"Helvetica-Normal" size:18];
-    scrollyLabel.marqueeType = MLContinuous;
-    scrollyLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-    
-    self.marquee = scrollyLabel;
-    
+- (void)viewDidLoad {
     //iPhone 4 scroller
     scroller.translatesAutoresizingMaskIntoConstraints = NO;
     [scroller setScrollEnabled:YES];
@@ -158,6 +187,33 @@
     [cell4Field2 setDelegate:self];
     [cell5Field1 setDelegate:self];
     [cell5Field2 setDelegate:self];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *preferedColour = [standardUserDefaults stringForKey:@"colourStyle"];
+    
+    if ([preferedColour isEqualToString:@"white"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.961 green:0.957 blue:0.969 alpha:1.0];
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    }
+    else if ([preferedColour isEqualToString:@"red"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.996 green:0.463 blue:0.478 alpha:1.0];
+    }
+    else if ([preferedColour isEqualToString:@"orange"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:1 green:0.584 blue:0 alpha:1.0];
+    }
+    else if ([preferedColour isEqualToString:@"green"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.631 green:0.91 blue:0.467 alpha:1.0];
+    }
+    else if ([preferedColour isEqualToString:@"turq"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.322 green:0.929 blue:0.78 alpha:1.0];
+    }
+    else if ([preferedColour isEqualToString:@"yellow"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.98 green:0.945 blue:0.537 alpha:1.0];
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    }
+    else if ([preferedColour isEqualToString:@"blue"]) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.275 green:0.671 blue:0.878 alpha:1.0];
+    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
